@@ -12,6 +12,8 @@
 		3D8508291F487C6D00ADA844 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8508281F487C6D00ADA844 /* Types.swift */; };
 		3D85082B1F487CE000ADA844 /* Animatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D85082A1F487CE000ADA844 /* Animatable.swift */; };
 		3D85082D1F48C62E00ADA844 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D85082C1F48C62E00ADA844 /* Extensions.swift */; };
+		3D85082F1F48DA2600ADA844 /* Bug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D85082E1F48DA2600ADA844 /* Bug.swift */; };
+		3DCC35251F4B86A0009F2A52 /* Firebug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCC35241F4B86A0009F2A52 /* Firebug.swift */; };
 		824441731D3C5E8F005ECB76 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824441721D3C5E8F005ECB76 /* AppDelegate.swift */; };
 		824441751D3C5E8F005ECB76 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 824441741D3C5E8F005ECB76 /* GameScene.sks */; };
 		824441791D3C5E8F005ECB76 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824441781D3C5E8F005ECB76 /* GameScene.swift */; };
@@ -39,6 +41,8 @@
 		3D8508281F487C6D00ADA844 /* Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 		3D85082A1F487CE000ADA844 /* Animatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animatable.swift; sourceTree = "<group>"; };
 		3D85082C1F48C62E00ADA844 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		3D85082E1F48DA2600ADA844 /* Bug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bug.swift; sourceTree = "<group>"; };
+		3DCC35241F4B86A0009F2A52 /* Firebug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Firebug.swift; sourceTree = "<group>"; };
 		8244416F1D3C5E8F005ECB76 /* PestControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PestControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		824441721D3C5E8F005ECB76 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		824441741D3C5E8F005ECB76 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -78,6 +82,8 @@
 			children = (
 				3D8508261F47DE3D00ADA844 /* Player.swift */,
 				3D85082A1F487CE000ADA844 /* Animatable.swift */,
+				3D85082E1F48DA2600ADA844 /* Bug.swift */,
+				3DCC35241F4B86A0009F2A52 /* Firebug.swift */,
 			);
 			name = Characters;
 			sourceTree = "<group>";
@@ -108,10 +114,10 @@
 				3D8508281F487C6D00ADA844 /* Types.swift */,
 				3D85082C1F48C62E00ADA844 /* Extensions.swift */,
 				8244417A1D3C5E8F005ECB76 /* GameViewController.swift */,
+				3D8508231F4699CF00ADA844 /* TileSets.sks */,
 				824441741D3C5E8F005ECB76 /* GameScene.sks */,
 				824441781D3C5E8F005ECB76 /* GameScene.swift */,
 				3D8508251F47DE0A00ADA844 /* Characters */,
-				3D8508231F4699CF00ADA844 /* TileSets.sks */,
 				8244417F1D3C5E8F005ECB76 /* Assets.xcassets */,
 				8244418A1D3C5FE1005ECB76 /* Storyboards */,
 				824441841D3C5E8F005ECB76 /* Info.plist */,
@@ -222,6 +228,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DCC35251F4B86A0009F2A52 /* Firebug.swift in Sources */,
 				824441791D3C5E8F005ECB76 /* GameScene.swift in Sources */,
 				824441A41D3CA5A6005ECB76 /* CGPoint+Extensions.swift in Sources */,
 				824441AD1D3CA5A6005ECB76 /* SKTTimingFunctions.swift in Sources */,
@@ -236,6 +243,7 @@
 				8244417B1D3C5E8F005ECB76 /* GameViewController.swift in Sources */,
 				824441A61D3CA5A6005ECB76 /* Int+Extensions.swift in Sources */,
 				824441AA1D3CA5A6005ECB76 /* SKNode+Extensions.swift in Sources */,
+				3D85082F1F48DA2600ADA844 /* Bug.swift in Sources */,
 				3D85082B1F487CE000ADA844 /* Animatable.swift in Sources */,
 				824441AB1D3CA5A6005ECB76 /* SKTAudio.swift in Sources */,
 				824441A31D3CA5A6005ECB76 /* CGFloat+Extensions.swift in Sources */,
