@@ -9,7 +9,7 @@
 import SpriteKit
 
 enum PlayerSettings {
-  static let playerSpeed: CGFloat = 175.0
+  static let playerSpeed: CGFloat = 280.0
 }
 
 class Player: SKSpriteNode {
@@ -33,7 +33,7 @@ class Player: SKSpriteNode {
     
     physicsBody = SKPhysicsBody(circleOfRadius: size.width/2)
     physicsBody?.restitution = 1.0
-    physicsBody?.linearDamping = 1.0
+    physicsBody?.linearDamping = 0.5
     physicsBody?.friction = 0
     physicsBody?.allowsRotation = false
     physicsBody?.categoryBitMask = PhysicsCategory.Player

@@ -30,11 +30,26 @@ class GameScene: SKScene {
   var obstaclesTileMap: SKTileMapNode?
   var firebugCount:Int = 0
   var bugsprayTileMap: SKTileMapNode?
+  var hud = HUD()
+  var timeLimit: Int = 10
+  var elapsedTime: Int = 0
+  var startTime: Int?
+  var currentLevel: Int = 1
+  var totalNumberOfLevels: Int = 4
+  var gameState: GameState = .initial {
+    didSet {
+      hud.updateGameState(from: oldValue, to: gameState)
+    }
+  }
   
   required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
     background = childNode(withName: "background") as! SKTileMapNode
     obstaclesTileMap = childNode(withName: "obstacles") as? SKTileMapNode
+    if let timeLimit = userData?.object(forKey: "timeLimit") as? Int {
+      self.timeLimit = timeLimit
+    }
+    addObservers()
   }
   
   override func didMove(to view: SKView) {
@@ -46,13 +61,33 @@ class GameScene: SKScene {
     if firebugCount > 0 {
       createBugspray(quantity: firebugCount + 10)
     }
+    setupHUD()
+    gameState = .start
   }
   
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     
     guard let touch = touches.first else { return }
     
-    player.move(target: touch.location(in: self))
+    switch gameState {
+    case .start:
+      gameState = .play
+      isPaused = false
+      startTime = nil
+      elapsedTime = 0
+    case .play:
+      player.move(target: touch.location(in: self))
+    case .win:
+      transitionToScene(level: currentLevel + 1)
+    case .lose:
+      transitionToScene(level: 1)
+    case .beatGame:
+      transitionToScene(level: 1)
+    default:
+      break
+    }
+    
+    
   }
   
   func setupCamera() {
@@ -177,10 +212,16 @@ class GameScene: SKScene {
   }
   
   override func update(_ currentTime: TimeInterval) {
+    if gameState != .play {
+      isPaused = true
+      return
+    }
     if !player.hasBugspray {
       updateBugspray()
     }
     advanceBreakableTile(locatedAt: player.position)
+    updateHUD(currentTime: currentTime)
+    checkEndGame()
   }
   
   func tileGroupForName(tileSet: SKTileSet, name: String) -> SKTileGroup? {
@@ -200,6 +241,48 @@ class GameScene: SKScene {
     if let nextTileGroup = tileGroupForName(tileSet: obstaclesTileMap.tileSet, name: nextTileGroupName) {
       obstaclesTileMap.setTileGroup(nextTileGroup, forColumn: column, row: row)
     }
+  }
+  
+  func setupHUD() {
+    camera?.addChild(hud)
+    //hud.add(message: "Howdy", position: .zero)
+    hud.addTimer(time: timeLimit)
+  }
+  
+  func updateHUD(currentTime: TimeInterval) {
+    
+    if let startTime = startTime {
+      
+      elapsedTime = Int(currentTime) - startTime
+    } else {
+      startTime = Int(currentTime) - elapsedTime
+    }
+    
+    hud.updateTimer(time: timeLimit - elapsedTime)
+  }
+  
+  func checkEndGame() {
+    if bugsNode.children.count == 0 {
+      player.physicsBody?.linearDamping = 1
+      if currentLevel < totalNumberOfLevels {
+        gameState = .win
+      } else {
+        gameState = .beatGame
+      }
+    } else if timeLimit - elapsedTime <= 0 {
+      player.physicsBody?.linearDamping = 1
+      gameState = .lose
+      
+    }
+  }
+  
+  func transitionToScene(level: Int) {
+    guard let newScene = SKScene(fileNamed: "Level\(level)") as? GameScene else {
+      fatalError("Level: \(level) not found")
+    }
+    
+    newScene.currentLevel = level
+    view!.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.5))
   }
 }
 
@@ -242,4 +325,26 @@ extension GameScene : SKPhysicsContactDelegate {
     }
   }
   
+}
+
+// Mark: - Notifications
+extension GameScene {
+  
+  func applicationDidBecomeActive() {
+    print("* applicationDidBecomeActive")
+  }
+  
+  func applicationWillResignActive() {
+    print("* applicationWillResignActive")
+  }
+  
+  func applicationDidEnterBackground() {
+    print("* applicationDidEnterBackground")
+  }
+  
+  func addObservers() {
+    NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive), name: .UIApplicationDidBecomeActive, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(applicationWillResignActive), name: .UIApplicationWillResignActive, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground), name: .UIApplicationDidEnterBackground, object: nil)
+  }
 }
