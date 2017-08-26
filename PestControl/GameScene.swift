@@ -52,6 +52,10 @@ class GameScene: SKScene {
     addObservers()
   }
   
+  deinit {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
   override func didMove(to view: SKView) {
     addChild(player)
     setupCamera()
@@ -83,6 +87,16 @@ class GameScene: SKScene {
       transitionToScene(level: 1)
     case .beatGame:
       transitionToScene(level: 1)
+    case .reload:
+      if let touchedNode = atPoint(touch.location(in: self)) as? SKLabelNode {
+        if touchedNode.name == HUDMessages.yes {
+          isPaused = false
+          startTime = nil
+          gameState = .play
+        } else if touchedNode.name == HUDMessages.no {
+          transitionToScene(level: 1)
+        }
+      }
     default:
       break
     }
@@ -332,10 +346,17 @@ extension GameScene {
   
   func applicationDidBecomeActive() {
     print("* applicationDidBecomeActive")
+    if gameState == .pause {
+      gameState = .reload
+    }
   }
   
   func applicationWillResignActive() {
     print("* applicationWillResignActive")
+    isPaused = true
+    if gameState != .lose {
+      gameState = .pause
+    }
   }
   
   func applicationDidEnterBackground() {
